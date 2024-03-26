@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AnswerOption from "./ AnswerOption.tsx";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../firebase.js";
 
 function Quiz() {
+  useEffect(() => {
+    // ここでFirestoreからデータを取得する処理を実行
+    const getQuestions = async () => {
+      const data = await getDocs(collection(db, "Questions"));
+      console.log(data);
+    };
+    getQuestions();
+  }, []);
   return (
     <div className="QuizAppUiDesign w-[360px] h-[717px] relative bg-fuchsia-100 rounded-[30px] border-2 border-black">
       <div className="QuizAppUiDesign w-[337px] h-[680px] left-[12px] top-[18px] absolute bg-white rounded-[30px]">
