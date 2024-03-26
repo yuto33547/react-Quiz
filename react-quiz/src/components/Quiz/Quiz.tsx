@@ -1,4 +1,5 @@
 import React from "react";
+import AnswerOption from "./ AnswerOption.tsx";
 
 function Quiz() {
   return (
@@ -16,34 +17,18 @@ function Quiz() {
           Question 13/20
         </div>
         <div className=" left-[60px] top-[115px] absolute text-center text-zinc-800 text-xl font-medium font-['DM Sans']">
-          坂本龍馬は何をした人？
+          坂本龍馬の名言はどれ？
         </div>
-        <div className="Come w-[300px] h-[60px] left-[18px] top-[245px] absolute">
-          <div className="Rectangle5 w-[300px] h-[60px] left-0 top-0 absolute bg-white rounded-[15px] border-2 border-fuchsia-700" />
-          <div className=" left-[13px] top-[19px] absolute text-center text-zinc-800 text-xl font-medium font-['DM Sans']">
-            我がなすことは我のみぞ知る
-          </div>
+        <div
+          className="AnswerOptions left-[18px]"
+          style={{ position: "relative" }}
+        >
+          <AnswerOption text="我がなすことは我のみぞ知る" top="245px" />
+          <AnswerOption text="天は人の上に人を作らず" top="324px" />
+          <AnswerOption text="人事を尽くして天命を待つ" top="403px" />
+          <AnswerOption text="明日の我に今日は勝つべし" top="482px" />
         </div>
-        <div className="Comes w-[300px] h-[60px] left-[18px] top-[324px] absolute">
-          <div className="Rectangle5 w-[300px] h-[60px] left-0 top-0 absolute bg-white rounded-[15px] border-2 border-fuchsia-700" />
-          <div className=" w-[222px] h-8 left-[25px] top-[14px] absolute text-center text-zinc-800 text-xl font-medium font-['DM Sans']">
-            天は人の上に人を作らず
-            <br />
-          </div>
-        </div>
-        <div className="AreComing w-[300px] h-[60px] left-[18px] top-[403px] absolute">
-          <div className="Rectangle5 w-[300px] h-[60px] left-0 top-0 absolute bg-white rounded-[15px] border-2 border-fuchsia-700" />
-          <div className=" w-[221px] h-[30px] left-[26px] top-[14px] absolute text-center text-zinc-800 text-xl font-medium font-['DM Sans']">
-            人事を尽くして天命を待つ
-            <br />
-          </div>
-        </div>
-        <div className="Came w-[300px] h-[60px] left-[18px] top-[482px] absolute">
-          <div className="Rectangle5 w-[300px] h-[60px] left-0 top-0 absolute bg-white rounded-[15px] border-2 border-fuchsia-700" />
-          <div className=" w-[230px] h-[30px] left-[27px] top-[14px] absolute text-center text-zinc-800 text-xl font-medium font-['DM Sans']">
-            明日の我に今日は勝つべし
-          </div>
-        </div>
+
         <div className="Button p-2.5 left-[118px] top-[589px] absolute bg-fuchsia-700 bg-opacity-50 rounded-xl justify-center items-center gap-2.5 inline-flex">
           <div className=" text-center text-black text-xl font-medium font-['DM Sans']">
             送信する
