@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import AnswerOption from "./ AnswerOption.tsx";
+import AnswerOption from "./AnswerOption.tsx";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase.js";
 
@@ -13,34 +13,33 @@ function Quiz() {
     getQuestions();
   }, []);
   return (
-    <div className="QuizAppUiDesign w-[360px] h-[717px] relative bg-fuchsia-100 rounded-[30px] border-2 border-black">
-      <div className="QuizAppUiDesign w-[337px] h-[680px] left-[12px] top-[18px] absolute bg-white rounded-[30px]">
-        <div className="Rectangle2 w-[281px] h-[166px] left-[26px] top-[32px] absolute bg-white rounded-[20px] shadow border border-black border-opacity-10" />
-        <div className="Group1 w-[67px] h-[67px] left-[128px] top-[-1px] absolute">
-          <div className="Ellipse5 w-[67px] h-[67px] left-0 top-0 absolute bg-white rounded-full" />
-          <div className="Ellipse7 w-[49px] h-[49px] left-[9px] top-[9px] absolute bg-white rounded-full" />
-          <div className=" left-[23px] top-[20px] absolute text-fuchsia-700 text-xl font-bold font-['DM Sans']">
-            18
+    <div className="QuizApp min-h-screen p-4 m-auto flex-col">
+      <div className="QuestionContainer  h-50 bg-red-500 flex items-center justify-center">
+        <div className="QuestionBox  bg-white rounded-lg shadow border border-black border-opacity-10 mb-4 mt-4">
+          <div className="Group1 flex items-center justify-center">
+            <div className="ml-4 text-fuchsia-700 text-xl font-bold font-['DM Sans']">
+              18
+            </div>
+          </div>
+          <div className="text-fuchsia-700 text-sm font-medium font-['DM Sans'] mb-2">
+            Question 13/20
+          </div>
+          <div className="text-center text-zinc-800 text-xl font-medium font-['DM Sans'] p-2">
+            坂本龍馬の名言はどれ？
           </div>
         </div>
-        <div className="Question1320 left-[111px] top-[81px] absolute text-fuchsia-700 text-sm font-medium font-['DM Sans']">
-          Question 13/20
-        </div>
-        <div className=" left-[60px] top-[115px] absolute text-center text-zinc-800 text-xl font-medium font-['DM Sans']">
-          坂本龍馬の名言はどれ？
-        </div>
-        <div
-          className="AnswerOptions left-[18px]"
-          style={{ position: "relative" }}
-        >
-          <AnswerOption text="我がなすことは我のみぞ知る" top="245px" />
-          <AnswerOption text="天は人の上に人を作らず" top="324px" />
-          <AnswerOption text="人事を尽くして天命を待つ" top="403px" />
-          <AnswerOption text="明日の我に今日は勝つべし" top="482px" />
-        </div>
+      </div>
 
-        <div className="Button p-2.5 left-[118px] top-[589px] absolute bg-fuchsia-700 bg-opacity-50 rounded-xl justify-center items-center gap-2.5 inline-flex">
-          <div className=" text-center text-black text-xl font-medium font-['DM Sans']">
+      <div className="AnswerOptionsContainer flex-1 bg-blue-500 flex items-center justify-center flex-col">
+        <AnswerOption text="我がなすことは我のみぞ知る" />
+        <AnswerOption text="天は人の上に人を作らず" />
+        <AnswerOption text="人事を尽くして天命を待つ" />
+        <AnswerOption text="明日の我に今日は勝つべし" />
+      </div>
+
+      <div className="Submit h-40 bg-green-500 flex justify-center items-center">
+        <div className="Button p-2.5 bg-fuchsia-700 bg-opacity-50 rounded-xl justify-center items-center gap-2.5 inline-flex w-[30%] h-[10%] ">
+          <div className="text-center text-black text-xl font-medium font-['DM Sans']">
             送信する
           </div>
         </div>
