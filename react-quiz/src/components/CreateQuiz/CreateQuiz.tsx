@@ -88,7 +88,7 @@ const CreateQuiz = () => {
         ))}
       </div>
 
-      <div className="Submit flex-1 bg-green-500 flex-col items-center justify-center">
+      <div className="Submit flex-1 bg-green-500 flex flex-col items-center justify-center">
         <button
           className="Button px-2.5 py-2.5 bg-fuchsia-700 bg-opacity-50 rounded-xl w-[30%] h-[10%] mb-2 mt-4 text-center"
           type="button"
