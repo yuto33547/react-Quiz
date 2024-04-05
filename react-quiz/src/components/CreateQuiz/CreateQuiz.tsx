@@ -10,8 +10,15 @@ const CreateQuiz = () => {
     { text: "", isOn: false },
     { text: "", isOn: false },
   ]);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const createQuestion = async () => {
+    //答えは1つチェック
+    const checkIsOn = answerOptions.filter((option) => option.isOn === true);
+    if (checkIsOn.length !== 1) {
+      setErrorMessage("正解となる選択肢は1つに設定してください");
+      return;
+    }
     try {
       const docRef = doc(db, "Questions", "Q3");
       const answerOptionsText = answerOptions.map((option) => option.text);
@@ -81,9 +88,9 @@ const CreateQuiz = () => {
         ))}
       </div>
 
-      <div className="Submit flex-1 bg-green-500 flex justify-center items-center">
+      <div className="Submit flex-1 bg-green-500 flex-col items-center justify-center">
         <button
-          className="Button px-2.5 py-2.5 bg-fuchsia-700 bg-opacity-50 rounded-xl justify-center items-center inline-flex w-[30%] h-[10%] mb-4 mt-4 gap-2.5"
+          className="Button px-2.5 py-2.5 bg-fuchsia-700 bg-opacity-50 rounded-xl w-[30%] h-[10%] mb-2 mt-4 text-center"
           type="button"
           onClick={createQuestion}
         >
@@ -91,6 +98,9 @@ const CreateQuiz = () => {
             送信する
           </div>
         </button>
+        <div className="error-message text-red-500 text-center">
+          {errorMessage}
+        </div>
       </div>
     </div>
   );
