@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { setDoc, doc } from "firebase/firestore";
+import { Timestamp, addDoc, collection } from "firebase/firestore";
 import { db } from "../../firebase";
 
 const CreateQuiz = () => {
@@ -20,14 +20,19 @@ const CreateQuiz = () => {
       return;
     }
     try {
-      const docRef = doc(db, "Questions", "Q3");
+      const collectionRef = collection(db, "Questions");
       const answerOptionsText = answerOptions.map((option) => option.text);
-      await setDoc(docRef, {
-        A: "4",
+      const answerIndex = answerOptions.findIndex(
+        (option) => option.isOn === true
+      );
+      await addDoc(collectionRef, {
+        A: answerIndex,
         Q: question,
         AnswerOptions: answerOptionsText,
+        Author: null,
+        sendAt: Timestamp.now(),
       });
-      console.log("問題Q3を追加しました");
+      console.log("問題を追加しました");
     } catch (error) {
       console.error("ドキュメントの追加中にエラーが発生しました: ", error);
     }
@@ -35,6 +40,12 @@ const CreateQuiz = () => {
 
   const handleAnswerOptionChange = (index, newText) => {
     const updatedAnswerOptions = [...answerOptions];
+    if (newText.length > 15) {
+      updatedAnswerOptions[index].text = "15文字以内に設定して下さい";
+      setAnswerOptions(updatedAnswerOptions);
+      console.log(updatedAnswerOptions);
+      return;
+    }
     updatedAnswerOptions[index].text = newText;
     setAnswerOptions(updatedAnswerOptions);
   };
@@ -63,9 +74,9 @@ const CreateQuiz = () => {
         {answerOptions.map((option, index) => (
           <div
             key={index}
-            className="item bg-white rounded-[15px] border-2 border-fuchsia-700 overflow-hidden mb-4 mt-4 w-[90%]"
+            className="item bg-white rounded-[15px] border-2 border-fuchsia-700 overflow-hidden mb-4 mt-4 w-[100%]"
           >
-            <div className="text-center text-zinc-800 text-xl font-medium font-['DM Sans'] p-2">
+            <div className="text-zinc-800 text-xl font-medium font-['DM Sans'] p-2 w-[100%] flex items-center">
               <input
                 type="text"
                 placeholder="回答を入力して下さい"
@@ -73,11 +84,11 @@ const CreateQuiz = () => {
                 onChange={(e) =>
                   handleAnswerOptionChange(index, e.target.value)
                 }
-                className="w-full"
+                className="w-[90%] h-10"
               />
               <button
                 onClick={() => toggleButton(index)}
-                className={`rounded-full w-8 h-8 flex items-center justify-center text-white font-bold text-lg ${
+                className={`rounded-full w-8 h-8 flex items-end justify-end text-white font-bold text-lg ${
                   option.isOn ? "bg-green-500" : "bg-red-500"
                 }`}
               >
