@@ -17,10 +17,20 @@ interface Question {
   sendAt: any;
 }
 
+interface SelectedAnswer {
+  selectedAnswer: number | undefined;
+}
+
 function Quiz() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [chooseAnswer, setChooseAnswer] = useState<number | undefined>();
+  const [selectedFlg, setSelectedFlg] = useState<boolean[]>([
+    false,
+    false,
+    false,
+    false,
+  ]);
 
   useEffect(() => {
     // ここでFirestoreからデータを取得する処理を実行
@@ -36,11 +46,23 @@ function Quiz() {
     };
     getQuestions();
   }, []);
+
   console.log(questions);
-  console.log(chooseAnswer);
+  console.log(chooseAnswer + "を選択しました");
 
   const checkAnswer = () => {
     //回答をチェック
+  };
+
+  const handleAnswerClick = (index: number) => {
+    // selectedFlgの該当するインデックスのフラグを更新する
+    const updatedFlg = Array(selectedFlg.length).fill(false); // 全てのフラグをfalseにリセット
+    updatedFlg[index] = true; // 選択されたインデックスのフラグをtrueに設定
+    setSelectedFlg(updatedFlg);
+
+    //回答の選択を更新する
+    setChooseAnswer(index);
+    console.log("handleAnswerClickを実行" + " :" + selectedFlg);
   };
 
   return (
@@ -74,7 +96,8 @@ function Quiz() {
                     key={index}
                     index={index}
                     text={answerOptionText}
-                    setChooseAnswer={setChooseAnswer}
+                    handleAnswerClick={() => handleAnswerClick(index)}
+                    selectedFlg={selectedFlg[index]}
                   />
                 ))}
               </div>
