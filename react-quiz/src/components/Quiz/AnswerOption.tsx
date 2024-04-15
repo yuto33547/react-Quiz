@@ -11,7 +11,7 @@ function AnswerOption(props: AnswerOptionProps) {
   //分割代入
   let { index, text, handleAnswerClick, selectedFlg } = props;
 
-  // selectedFlg の変更を検出して isSelected を更新
+  // selectedFlg の変更を検出
   useEffect(() => {
     console.log("selectFlg :" + selectedFlg);
   }, [selectedFlg]);
