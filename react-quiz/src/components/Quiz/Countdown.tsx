@@ -19,29 +19,32 @@ const renderTime = (dimension, time) => {
 const minuteSeconds = 60;
 const getTimeSeconds = (time) => (minuteSeconds - time) | 0;
 
-function Countdown() {
+interface CountdownProps {
+  onTimeUp: () => void;
+}
+
+function Countdown({ onTimeUp }: CountdownProps) {
   //currentQuestionIndexが変更されたタイミングでカウントダウンを再開
   //onCopliteの定義からnewInitialRemainingTimeを渡すと再開できるっぽい
   //次の問題に行った時、自動的に再レンダリングされてカウントが60から再開するのでそれらは必要なし
 
   return (
-    <div className="flex items-center justify-center">
-      <CountdownCircleTimer
-        {...timerProps}
-        colors={["#218380", "#F7B801", "#A30000", "#A30000"]}
-        colorsTime={[60, 30, 10, 0]}
-        duration={minuteSeconds}
-        onComplete={(totalElapsedTime) => ({
-          shouldRepeat: false,
-        })}
-      >
-        {({ elapsedTime, color }) => (
-          <span style={{ color }}>
-            {renderTime("seconds", getTimeSeconds(elapsedTime))}
-          </span>
-        )}
-      </CountdownCircleTimer>
-    </div>
+    <CountdownCircleTimer
+      {...timerProps}
+      colors={["#218380", "#F7B801", "#A30000", "#A30000"]}
+      colorsTime={[60, 30, 10, 0]}
+      duration={minuteSeconds}
+      onComplete={() => {
+        onTimeUp();
+        return { shouldRepeat: false };
+      }}
+    >
+      {({ elapsedTime, color }) => (
+        <span style={{ color }}>
+          {renderTime("seconds", getTimeSeconds(elapsedTime))}
+        </span>
+      )}
+    </CountdownCircleTimer>
   );
 }
 

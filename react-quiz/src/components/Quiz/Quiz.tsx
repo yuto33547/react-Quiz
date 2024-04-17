@@ -63,6 +63,17 @@ function Quiz() {
     console.log("handleAnswerClickを実行" + " :" + selectedFlg);
   };
 
+  const handleTimeUp = () => {
+    // タイムアップ時の処理
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+      setChooseAnswer(undefined);
+      setSelectedFlg(Array(selectedFlg.length).fill(false));
+    } else {
+      alert("問題は全て終了しました。ランキングの画面に移動します。");
+    }
+  };
+
   const checkAnswer = (answer: number) => {
     //回答をチェック
     console.log(chooseAnswer);
@@ -97,13 +108,15 @@ function Quiz() {
                 style={{ color: "#218380" }}
               >
                 <div
-                  className="QuestionBox w-[60%] bg-white rounded-lg shadow border border-opacity-10 mb-4 mt-4"
+                  className="QuestionBox min-w-60 min-h-20 bg-white rounded-lg shadow border border-opacity-10 mb-4 mt-4 flex flex-col justify-end "
                   style={{ borderColor: "#218380" }}
                 >
-                  <Countdown />
+                  <div className=" top-0 -translate-y-6 self-center bg-white">
+                    <Countdown onTimeUp={handleTimeUp} />
+                  </div>
 
                   <div
-                    className="text-fuchsia-700 text-sm font-medium font-['DM Sans'] mb-2 text-center"
+                    className="text-fuchsia-700 text-sm font-medium font-['DM Sans'] text-center "
                     style={{ color: "#218380" }}
                   >
                     Question {index + 1}/{questions.length}
