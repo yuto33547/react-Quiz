@@ -5,13 +5,14 @@ interface AnswerOptionProps {
   text: string;
   handleAnswerClick: (index: number) => void;
   selectedFlg: boolean;
+  color: string;
 }
 
 function AnswerOption(props: AnswerOptionProps) {
   //分割代入
-  let { index, text, handleAnswerClick, selectedFlg } = props;
+  let { index, text, handleAnswerClick, selectedFlg, color } = props;
 
-  // selectedFlg の変更を検出
+  // selectedFlg の変更を検出 親のstateが変更されると自動的にレンダリングされるのでいらないけど明示的に
   useEffect(() => {
     console.log("selectFlg :" + selectedFlg);
   }, [selectedFlg]);
@@ -30,11 +31,11 @@ function AnswerOption(props: AnswerOptionProps) {
 
   return (
     <div
-      className={`Rectangle5 ${
+      className={`Rectangle5 rounded-[15px] border-2 overflow-hidden mb-4 mt-4 w-[90%] max-w-80 h-[auto] ${
         selectedFlg
           ? "bg-gray-200 border-gray-600"
           : "bg-white border-fuchsia-700"
-      } rounded-[15px] border-2 overflow-hidden mb-4 mt-4 w-[90%] h-[auto]`}
+      } ${color}`}
       onClick={chooseAnswer}
     >
       <div className="text-center text-zinc-800 text-xl font-medium font-['DM Sans'] mb-4 mt-4">

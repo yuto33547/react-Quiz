@@ -32,7 +32,9 @@ function Quiz() {
     false,
     false,
   ]);
+  const [colors, setColors] = useState<string[]>([]);
   const [score, setScore] = useState(0);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   useEffect(() => {
     // ここでFirestoreからデータを取得する処理を実行
@@ -74,15 +76,40 @@ function Quiz() {
     }
   };
 
-  const checkAnswer = (answer: number) => {
+  const displayAnswer = () => {
+    const correctAnswer = questions[currentQuestionIndex].A; // 現在の問題の正解
+    const selectedAnswerIndex = chooseAnswer; // 選択した回答のインデックス
+
+    // 各回答オプションの色を格納するための配列を作成
+    const answerColors = selectedFlg.map((_, index) => {
+      if (index === correctAnswer) {
+        return "bg-green-400"; // 正解の場合の色
+      } else if (index === selectedAnswerIndex) {
+        return "bg-red-500"; // 選択した回答の場合の色
+      } else {
+        return "bg-zinc-300"; // その他の場合の色
+      }
+    });
+
+    // 各AnswerOptionコンポーネントに色を渡すためにstateを更新
+    setColors(answerColors);
+  };
+
+  const checkAnswer = async (answer: number) => {
     //回答をチェック
-    console.log(chooseAnswer);
     if (chooseAnswer == undefined) {
       alert("回答を選択して下さい");
     } else {
       if (answer === chooseAnswer) {
         setScore((prevScore) => prevScore + 1);
       }
+
+      displayAnswer(); // 回答の色を変更
+      setIsButtonDisabled(true); // ボタンを無効化
+      await new Promise((resolve) => setTimeout(resolve, 2000)); // 1秒待って次の問題へ
+      setIsButtonDisabled(false); // ボタンを有効化
+      setColors([]); //colorsを初期化
+
       //次の問題へ
       if (currentQuestionIndex < questions.length - 1) {
         setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
@@ -104,7 +131,7 @@ function Quiz() {
               key={index}
             >
               <div
-                className="QuestionContainer  flex-1 flex items-center justify-center"
+                className="QuestionContainer flex items-center justify-center"
                 style={{ color: "#218380" }}
               >
                 <div
@@ -136,15 +163,29 @@ function Quiz() {
                     text={answerOptionText}
                     handleAnswerClick={() => handleAnswerClick(index)}
                     selectedFlg={selectedFlg[index]}
+                    color={colors[index]}
                   />
                 ))}
               </div>
 
               <div className="Submit flex-1 flex justify-center items-center">
                 <button
-                  className="Button px-2.5 py-2.5 bg-fuchsia-700 bg-opacity-50 rounded-xl w-[30%] h-[10%] mb-4 mt-4 text-center"
+                  className={`Button px-2.5 py-2.5 bg-fuchsia-700 bg-opacity-50 rounded-xl w-[30%] h-[10%] mb-4 mt-4 text-center 
+                    chooseAnswer !== undefined ? "bg-gray-400" : ""
+                  `}
                   type="button"
                   onClick={() => checkAnswer(question.A)}
+                  disabled={isButtonDisabled}
+                  onMouseOver={(e) => {
+                    (e.currentTarget as HTMLElement).classList.add(
+                      "bg-opacity-70"
+                    );
+                  }}
+                  onMouseOut={(e) => {
+                    (e.currentTarget as HTMLElement).classList.remove(
+                      "bg-opacity-70"
+                    );
+                  }}
                 >
                   <div className="text-center text-black text-xl font-medium font-['DM Sans']">
                     回答する
