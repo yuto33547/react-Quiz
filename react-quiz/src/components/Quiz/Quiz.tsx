@@ -9,6 +9,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebase.js";
 import Countdown from "./Countdown.tsx";
+import SakuraBackgroud from "./SakuraBackgroud.jsx";
 
 interface Question {
   A: number;
@@ -130,6 +131,7 @@ function Quiz() {
               className="QuizApp min-h-screen p-4 m-auto flex-col"
               key={index}
             >
+              <SakuraBackgroud />
               <div
                 className="QuestionContainer flex items-center justify-center"
                 style={{ color: "#218380" }}
