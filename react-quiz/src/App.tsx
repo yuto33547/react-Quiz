@@ -11,11 +11,24 @@ import SakuraBackgroud from "./components/Quiz/SakuraBackgroud.jsx";
 function App() {
   return (
     <Router>
+      <nav>
+        <ul>
+          {/* <li>
+            <Link to="/">ホーム</Link>
+          </li> */}
+          <li>
+            <Link to="/Quiz/">クイズ</Link>
+          </li>
+          <li>
+            <Link to="/CreateQuiz/">クイズ作成</Link>
+          </li>
+        </ul>
+      </nav>
+
       <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/Quiz" element={<Quiz />}></Route>
-        <Route path="/CreateQuiz" element={<CreateQuiz />}></Route>
-        <Route path="/Sakura" element={<SakuraBackgroud />}></Route>
+        {/* <Route path="/" element={<Home />}></Route> */}
+        <Route path="/Quiz/" element={<Quiz />}></Route>
+        <Route path="/CreateQuiz/" element={<CreateQuiz />}></Route>
       </Routes>
     </Router>
   );

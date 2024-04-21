@@ -130,6 +130,7 @@ function Quiz() {
             <div
               className="QuizApp min-h-screen p-4 m-auto flex-col"
               key={index}
+              style={{ backgroundColor: "#FFF0F5" }}
             >
               <SakuraBackgroud />
               <div
@@ -140,7 +141,7 @@ function Quiz() {
                   className="QuestionBox min-w-60 min-h-20 bg-white rounded-lg shadow border border-opacity-10 mb-4 mt-4 flex flex-col justify-end "
                   style={{ borderColor: "#218380" }}
                 >
-                  <div className=" top-0 -translate-y-6 self-center bg-white">
+                  <div className=" top-0 -translate-y-6 self-center bg-white rounded-full">
                     <Countdown onTimeUp={handleTimeUp} />
                   </div>
 
