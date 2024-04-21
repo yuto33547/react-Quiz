@@ -63,7 +63,6 @@ function Quiz() {
 
     //回答の選択を更新する
     setChooseAnswer(index);
-    console.log("handleAnswerClickを実行" + " :" + selectedFlg);
   };
 
   const handleTimeUp = () => {
@@ -84,13 +83,15 @@ function Quiz() {
     // 各回答オプションの色を格納するための配列を作成
     const answerColors = selectedFlg.map((_, index) => {
       if (index === correctAnswer) {
-        return "bg-green-400"; // 正解の場合の色
+        return "bg-green-500 border-none"; // 正解の場合の色
       } else if (index === selectedAnswerIndex) {
-        return "bg-red-500"; // 選択した回答の場合の色
+        return "bg-red-500 border-none"; // 選択した回答の場合の色
       } else {
-        return "bg-zinc-300"; // その他の場合の色
+        return "bg-zinc-300 border-none"; // その他の場合の色
       }
     });
+
+    console.log(answerColors);
 
     // 各AnswerOptionコンポーネントに色を渡すためにstateを更新
     setColors(answerColors);
