@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AnswerOption from "./AnswerOption.tsx";
 import {
   DocumentData,
@@ -24,6 +25,7 @@ interface SelectedAnswer {
 }
 
 function Quiz() {
+  const navigate = useNavigate();
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [chooseAnswer, setChooseAnswer] = useState<number | undefined>();
@@ -119,6 +121,8 @@ function Quiz() {
         setSelectedFlg(Array(selectedFlg.length).fill(false)); //コンストラクタで初期化してset
       } else {
         alert("問題は全て終了しました。ランキングの画面に移動します。");
+        //DBにニックネームと記録を登録する
+        navigate("/Ranking");
       }
     }
   };

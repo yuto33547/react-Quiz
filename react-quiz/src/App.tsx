@@ -7,6 +7,8 @@ import CreateQuiz from "./components/CreateQuiz/CreateQuiz.tsx";
 
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import SakuraBackgroud from "./components/Quiz/SakuraBackgroud.jsx";
+import Login from "./components/Login/Login.tsx";
+import Ranking from "./components/Ranking/Ranking.tsx";
 
 function App() {
   return (
@@ -27,8 +29,10 @@ function App() {
 
       <Routes>
         {/* <Route path="/" element={<Home />}></Route> */}
-        <Route path="/Quiz/" element={<Quiz />}></Route>
-        <Route path="/CreateQuiz/" element={<CreateQuiz />}></Route>
+        <Route path="/Quiz" element={<Quiz />}></Route>
+        <Route path="/CreateQuiz" element={<CreateQuiz />}></Route>
+        <Route path="/Login" element={<Login />}></Route>
+        <Route path="/Ranking" element={<Ranking />}></Route>
       </Routes>
     </Router>
   );
