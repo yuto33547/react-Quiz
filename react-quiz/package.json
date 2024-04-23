@@ -7,8 +7,10 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@typescript-eslint/parser": "^5.62.0",
+    "bootstrap": "^5.3.3",
     "firebase": "^10.9.0",
     "react": "^18.2.0",
+    "react-bootstrap": "^2.10.2",
     "react-countdown-circle-timer": "^3.2.1",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3",
@@ -46,6 +48,7 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@types/bootstrap": "^5.2.10"
   }
 }
