@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
 const timerProps = {
@@ -21,10 +21,16 @@ const getTimeSeconds = (time) => (minuteSeconds - time) | 0;
 
 interface CountdownProps {
   onTimeUp: () => void;
-  setElapsedTime: React.Dispatch<React.SetStateAction<number>>;
+  passElaspedTime: (elapsedTime: number) => void;
+  isAnswered: boolean;
 }
 
-function Countdown({ onTimeUp, setElapsedTime }: CountdownProps) {
+function Countdown({ onTimeUp, passElaspedTime, isAnswered }: CountdownProps) {
+  const [localElaspedTime, setLocalElaspedTime] = useState<number>(0);
+  useEffect(() => {
+    if (isAnswered === true) passElaspedTime(localElaspedTime);
+  }, [isAnswered]);
+
   return (
     <CountdownCircleTimer
       {...timerProps}
@@ -36,7 +42,7 @@ function Countdown({ onTimeUp, setElapsedTime }: CountdownProps) {
         return { shouldRepeat: false };
       }}
       onUpdate={(elapsedTime) => {
-        setElapsedTime(getTimeSeconds(elapsedTime));
+        setLocalElaspedTime(getTimeSeconds(elapsedTime));
       }}
     >
       {({ elapsedTime, color }) => (

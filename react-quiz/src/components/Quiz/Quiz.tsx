@@ -39,6 +39,7 @@ function Quiz() {
   const [colors, setColors] = useState<string[]>([]);
   const [score, setScore] = useState(0);
   const [elapsedTime, setElapsedTime] = useState(0); // 経過時間のステートを追加
+  const [isAnswered, setIsAnswered] = useState(false); // elapsedTime変更用
   const [timeScore, setTimeScore] = useState<number[]>([]);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
@@ -72,10 +73,11 @@ function Quiz() {
 
   const handleTimeUp = () => {
     // タイムアップ時の処理
-
+    setIsAnswered(true);
     //timeScoreをセット
     console.log(elapsedTime);
     setTimeScore((prevTimeScore) => [...prevTimeScore, elapsedTime]);
+    setIsAnswered(false);
 
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
@@ -107,6 +109,11 @@ function Quiz() {
     setColors(answerColors);
   };
 
+  //子のCowntdownコンポーネントに渡してelaspedTimeをsetする関数
+  const passElaspedTime = (elapsedTime: number) => {
+    setElapsedTime(elapsedTime);
+  };
+
   const checkAnswer = async (answer: number) => {
     //回答をチェック
     if (chooseAnswer == undefined) {
@@ -117,7 +124,9 @@ function Quiz() {
       }
       //timeScoreをセット
       console.log(elapsedTime);
+      setIsAnswered(true);
       setTimeScore((prevTimeScore) => [...prevTimeScore, elapsedTime]);
+      setIsAnswered(false);
 
       displayAnswer(); // 回答の色を変更
       setIsButtonDisabled(true); // ボタンを無効化
@@ -172,7 +181,8 @@ function Quiz() {
                   <div className=" top-0 -translate-y-6 self-center bg-white rounded-full">
                     <Countdown
                       onTimeUp={handleTimeUp}
-                      setElapsedTime={setElapsedTime}
+                      passElaspedTime={passElaspedTime}
+                      isAnswered={isAnswered}
                     />
                   </div>
 
