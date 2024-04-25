@@ -14,7 +14,7 @@ function AnswerOption(props: AnswerOptionProps) {
 
   // selectedFlg の変更を検出 親のstateが変更されると自動的にレンダリングされるのでいらないけど明示的に
   useEffect(() => {
-    console.log("再レンダリングした時色は：" + index + color);
+    // console.log("再レンダリングした時色は：" + index + color);
   }, [selectedFlg]);
 
   const chooseAnswer = () => {
@@ -26,7 +26,7 @@ function AnswerOption(props: AnswerOptionProps) {
     //selectedFlgの値によって色を変える
   };
 
-  console.log("再レンダリングした時色は：" + index + color);
+  // console.log("再レンダリングした時色は：" + index + color);
 
   return (
     <div

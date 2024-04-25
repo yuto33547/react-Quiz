@@ -21,13 +21,10 @@ const getTimeSeconds = (time) => (minuteSeconds - time) | 0;
 
 interface CountdownProps {
   onTimeUp: () => void;
+  setElapsedTime: React.Dispatch<React.SetStateAction<number>>;
 }
 
-function Countdown({ onTimeUp }: CountdownProps) {
-  //currentQuestionIndexが変更されたタイミングでカウントダウンを再開
-  //onCopliteの定義からnewInitialRemainingTimeを渡すと再開できるっぽい
-  //次の問題に行った時、自動的に再レンダリングされてカウントが60から再開するのでそれらは必要なし
-
+function Countdown({ onTimeUp, setElapsedTime }: CountdownProps) {
   return (
     <CountdownCircleTimer
       {...timerProps}
@@ -37,6 +34,9 @@ function Countdown({ onTimeUp }: CountdownProps) {
       onComplete={() => {
         onTimeUp();
         return { shouldRepeat: false };
+      }}
+      onUpdate={(elapsedTime) => {
+        setElapsedTime(getTimeSeconds(elapsedTime));
       }}
     >
       {({ elapsedTime, color }) => (

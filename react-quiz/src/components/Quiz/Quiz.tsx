@@ -7,6 +7,7 @@ import {
   getDocs,
   orderBy,
   query,
+  addDoc,
 } from "firebase/firestore";
 import { db } from "../../firebase.js";
 import Countdown from "./Countdown.tsx";
@@ -37,6 +38,8 @@ function Quiz() {
   ]);
   const [colors, setColors] = useState<string[]>([]);
   const [score, setScore] = useState(0);
+  const [elapsedTime, setElapsedTime] = useState(0); // 経過時間のステートを追加
+  const [timeScore, setTimeScore] = useState<number[]>([]);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   useEffect(() => {
@@ -69,6 +72,11 @@ function Quiz() {
 
   const handleTimeUp = () => {
     // タイムアップ時の処理
+
+    //timeScoreをセット
+    console.log(elapsedTime);
+    setTimeScore((prevTimeScore) => [...prevTimeScore, elapsedTime]);
+
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
       setChooseAnswer(undefined);
@@ -107,6 +115,9 @@ function Quiz() {
       if (answer === chooseAnswer) {
         setScore((prevScore) => prevScore + 1);
       }
+      //timeScoreをセット
+      console.log(elapsedTime);
+      setTimeScore((prevTimeScore) => [...prevTimeScore, elapsedTime]);
 
       displayAnswer(); // 回答の色を変更
       setIsButtonDisabled(true); // ボタンを無効化
@@ -122,6 +133,18 @@ function Quiz() {
       } else {
         alert("問題は全て終了しました。ランキングの画面に移動します。");
         //DBにニックネームと記録を登録する
+        const totalTime = timeScore.reduce((total, time) => total + time, 0); //timeScoreの合計値
+        try {
+          const collectionRef = collection(db, "Results");
+          await addDoc(collectionRef, {
+            nickName: localStorage.getItem("nickName"),
+            score: score,
+            time: totalTime,
+          });
+          console.log("DBに結果を登録しました");
+        } catch (error) {
+          console.error("ドキュメントの追加中にエラーが発生しました: ", error);
+        }
         navigate("/Ranking");
       }
     }
@@ -147,7 +170,10 @@ function Quiz() {
                   style={{ borderColor: "#218380" }}
                 >
                   <div className=" top-0 -translate-y-6 self-center bg-white rounded-full">
-                    <Countdown onTimeUp={handleTimeUp} />
+                    <Countdown
+                      onTimeUp={handleTimeUp}
+                      setElapsedTime={setElapsedTime}
+                    />
                   </div>
 
                   <div
