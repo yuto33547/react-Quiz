@@ -33,7 +33,6 @@ const Ranking = () => {
         newResults.push(doc.data() as ResultType);
       });
       setResults(newResults);
-      console.log("firestoreを読み込みました" + results);
     };
     getResults();
 

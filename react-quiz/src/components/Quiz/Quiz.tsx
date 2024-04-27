@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AnswerOption from "./AnswerOption.tsx";
 import {
-  DocumentData,
   collection,
   getDocs,
   orderBy,
@@ -19,10 +18,6 @@ interface Question {
   Author: string;
   Q: string;
   sendAt: any;
-}
-
-interface SelectedAnswer {
-  selectedAnswer: number | undefined;
 }
 
 function Quiz() {
@@ -109,7 +104,7 @@ function Quiz() {
 
   const checkAnswer = async (answer: number) => {
     //回答をチェック
-    if (chooseAnswer == undefined) {
+    if (chooseAnswer === undefined) {
       alert("回答を選択して下さい");
     } else {
       if (answer === chooseAnswer) {
@@ -228,6 +223,8 @@ function Quiz() {
               </div>
             </div>
           );
+        } else {
+          return null; // 条件に一致しない場合は null を返す
         }
       })}
     </>
