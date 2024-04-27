@@ -1,6 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ListGroup from "react-bootstrap/ListGroup";
+import {
+  DocumentData,
+  collection,
+  getDocs,
+  orderBy,
+  query,
+  addDoc,
+} from "firebase/firestore";
+import { db } from "../../firebase.js";
 
 const Ranking = () => {
   // ランキングのダミーデータ
@@ -28,6 +37,33 @@ const Ranking = () => {
     // 以下、ランキングデータを追加
   ];
 
+  interface ResultType {
+    nickName: string;
+    score: number;
+    time: number;
+  }
+
+  const [results, setResults] = useState<ResultType[]>([]);
+
+  useEffect(() => {
+    // ここでFirestoreからデータを取得する処理を実行
+    const getResults = async () => {
+      const q = query(
+        collection(db, "Results"),
+        orderBy("score", "desc"),
+        orderBy("time", "asc")
+      );
+      const querySnapshot = await getDocs(q);
+      const newResults: ResultType[] = [];
+      querySnapshot.forEach((doc) => {
+        newResults.push(doc.data() as ResultType);
+      });
+      setResults(newResults);
+      console.log("firestoreを読み込みました" + results);
+    };
+    getResults();
+  }, []);
+
   return (
     <div
       className="QuizApp min-h-screen p-4 flex flex-col items-center "
@@ -36,22 +72,31 @@ const Ranking = () => {
       <h1 className="mb-4 text-3xl font-bold ">ランキング👑</h1>
       <ListGroup className="max-w-screen-md w-full">
         {/* 1位, 2位, 3位の情報をheadListとして固定 */}
-        {rankingData.slice(0, 3).map((item) => (
+        {results.slice(0, 3).map((item, index) => (
           <ListGroup.Item
-            key={item.rank}
+            key={item.nickName}
             className={`rounded-lg border-2 border-gray-800 my-1 p-2 ${
-              item.rank === 1
+              index === 0
                 ? "bg-green-200"
-                : item.rank === 2
+                : index === 1
                 ? "bg-green-400"
-                : item.rank === 3
+                : index === 2
                 ? "bg-green-600"
                 : ""
             }`}
           >
-            <span className="font-bold mr-2">{item.rank}位:</span>
-            <span className="mr-2">{item.name}</span>
-            <span className="text-gray-800">{item.score}点</span>
+            <div className="flex justify-between">
+              <div>
+                <span className="font-bold">{index + 1}位: </span>
+                <span>{item.nickName}</span>
+              </div>
+              <div>
+                <span className="text-gray-800">{item.score}/10</span>
+                <span className="text-right text-gray-800 w-20 inline-block">
+                  {item.time}秒
+                </span>
+              </div>
+            </div>
           </ListGroup.Item>
         ))}
       </ListGroup>
@@ -62,12 +107,23 @@ const Ranking = () => {
         style={{ maxHeight: "500px" }}
       >
         <ListGroup>
-          {rankingData.slice(3).map((item) => (
+          {results.slice(3).map((item, index) => (
             <ListGroup.Item
               className="bg-green-50 border border-inherit"
-              key={item.rank}
+              key={item.nickName}
             >
-              {item.rank}位: {item.name} - {item.score}点
+              <div className="flex justify-between">
+                <div>
+                  <span>{index + 4}位: </span>
+                  <span>{item.nickName}</span>
+                </div>
+                <div>
+                  <span className="text-gray-800">{item.score}/10</span>
+                  <span className="text-right text-gray-800 w-20 inline-block">
+                    {item.time}秒
+                  </span>
+                </div>
+              </div>
             </ListGroup.Item>
           ))}
         </ListGroup>
