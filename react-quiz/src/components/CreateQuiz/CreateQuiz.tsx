@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Timestamp, addDoc, collection } from "firebase/firestore";
 import { db } from "../../firebase";
+import Form from "react-bootstrap/Form";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const CreateQuiz = () => {
   const [question, setQuestion] = useState("");
@@ -58,37 +60,38 @@ const CreateQuiz = () => {
 
   return (
     <div className="QuizApp min-h-screen p-4 m-auto flex flex-col">
-      <div className="QuestionContainer flex-1 bg-red-500 flex items-center justify-center">
+      <div className="QuestionContainer flex-1 flex items-center justify-center">
         <div className="QuestionBox bg-white rounded-lg shadow border border-black border-opacity-10 mb-4 mt-4 p-2">
-          <input
-            type="text"
-            placeholder="問題を入力して下さい"
+          <Form.Control
+            as="textarea"
+            rows={3}
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
-            className="text-zinc-800 text-xl font-medium font-['DM Sans'] w-full p-2"
+            placeholder="問題を入力して下さい"
           />
         </div>
       </div>
 
-      <div className="AnswerOptionsContainer flex-1 bg-blue-500 flex items-center justify-center flex-col">
+      <div className="AnswerOptionsContainer flex-1 flex items-center justify-center flex-col">
         {answerOptions.map((option, index) => (
           <div
             key={index}
             className="item bg-white rounded-[15px] border-2 border-fuchsia-700 overflow-hidden mb-4 mt-4 w-[100%]"
           >
-            <div className="text-zinc-800 text-xl font-medium font-['DM Sans'] p-2 w-[100%] flex items-center">
-              <input
-                type="text"
-                placeholder="回答を入力して下さい"
+            <div className="text-zinc-800 text-xl font-medium font-['DM Sans'] p-2 w-[100%] flex ">
+              <Form.Control
+                as="input"
                 value={option.text}
                 onChange={(e) =>
                   handleAnswerOptionChange(index, e.target.value)
                 }
-                className="w-[90%] h-10"
+                placeholder="回答を入力して下さい"
+                className="flex-9" // flex-grow を追加しました
               />
+
               <button
                 onClick={() => toggleButton(index)}
-                className={`rounded-full w-8 h-8 flex items-end justify-end text-white font-bold text-lg ${
+                className={`rounded-full w-8 h-8 text-white font-bold text-lg flex-1 ${
                   option.isOn ? "bg-green-500" : "bg-red-500"
                 }`}
               >
@@ -99,7 +102,7 @@ const CreateQuiz = () => {
         ))}
       </div>
 
-      <div className="Submit flex-1 bg-green-500 flex flex-col items-center justify-center">
+      <div className="Submit flex-1 flex flex-col items-center justify-center">
         <button
           className="Button px-2.5 py-2.5 bg-fuchsia-700 bg-opacity-50 rounded-xl w-[30%] h-[10%] mb-2 mt-4 text-center"
           type="button"
