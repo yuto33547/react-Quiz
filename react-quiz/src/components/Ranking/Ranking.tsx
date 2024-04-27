@@ -2,41 +2,15 @@ import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ListGroup from "react-bootstrap/ListGroup";
 import {
-  DocumentData,
   collection,
   getDocs,
   orderBy,
   query,
-  addDoc,
+  onSnapshot,
 } from "firebase/firestore";
 import { db } from "../../firebase.js";
 
 const Ranking = () => {
-  // ランキングのダミーデータ
-  const rankingData = [
-    { rank: 1, name: "山田太郎", score: 100 },
-    { rank: 2, name: "鈴木花子", score: 95 },
-    { rank: 3, name: "佐藤次郎", score: 90 },
-    { rank: 4, name: "田中三郎", score: 85 },
-    { rank: 5, name: "高橋美咲", score: 80 },
-    { rank: 6, name: "山田太郎", score: 100 },
-    { rank: 7, name: "鈴木花子", score: 95 },
-    { rank: 8, name: "佐藤次郎", score: 90 },
-    { rank: 9, name: "田中三郎", score: 85 },
-    { rank: 10, name: "高橋美咲", score: 80 },
-    { rank: 11, name: "山田太郎", score: 100 },
-    { rank: 12, name: "鈴木花子", score: 95 },
-    { rank: 13, name: "佐藤次郎", score: 90 },
-    { rank: 14, name: "田中三郎", score: 85 },
-    { rank: 15, name: "高橋美咲", score: 80 },
-    { rank: 16, name: "山田太郎", score: 100 },
-    { rank: 17, name: "鈴木花子", score: 95 },
-    { rank: 18, name: "佐藤次郎", score: 90 },
-    { rank: 19, name: "田中三郎", score: 85 },
-    { rank: 20, name: "高橋美咲", score: 80 },
-    // 以下、ランキングデータを追加
-  ];
-
   interface ResultType {
     nickName: string;
     score: number;
@@ -46,13 +20,13 @@ const Ranking = () => {
   const [results, setResults] = useState<ResultType[]>([]);
 
   useEffect(() => {
+    const q = query(
+      collection(db, "Results"),
+      orderBy("score", "desc"),
+      orderBy("time", "asc")
+    );
     // ここでFirestoreからデータを取得する処理を実行
     const getResults = async () => {
-      const q = query(
-        collection(db, "Results"),
-        orderBy("score", "desc"),
-        orderBy("time", "asc")
-      );
       const querySnapshot = await getDocs(q);
       const newResults: ResultType[] = [];
       querySnapshot.forEach((doc) => {
@@ -62,6 +36,20 @@ const Ranking = () => {
       console.log("firestoreを読み込みました" + results);
     };
     getResults();
+
+    // リアルタイムアップデートを監視
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const newResults: ResultType[] = [];
+      snapshot.forEach((doc) => {
+        newResults.push(doc.data() as ResultType);
+      });
+      setResults(newResults);
+    });
+
+    // クリーンアップ関数
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   return (
