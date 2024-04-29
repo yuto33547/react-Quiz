@@ -35,6 +35,13 @@ const CreateQuiz = () => {
         sendAt: Timestamp.now(),
       });
       console.log("問題を追加しました");
+      setAnswerOptions([
+        { text: "", isOn: false },
+        { text: "", isOn: false },
+        { text: "", isOn: false },
+        { text: "", isOn: false },
+      ]);
+      setQuestion("");
     } catch (error) {
       console.error("ドキュメントの追加中にエラーが発生しました: ", error);
     }
@@ -42,12 +49,12 @@ const CreateQuiz = () => {
 
   const handleAnswerOptionChange = (index, newText) => {
     const updatedAnswerOptions = [...answerOptions];
-    if (newText.length > 15) {
-      updatedAnswerOptions[index].text = "15文字以内に設定して下さい";
-      setAnswerOptions(updatedAnswerOptions);
-      console.log(updatedAnswerOptions);
-      return;
-    }
+    // if (newText.length > 15) {
+    //   updatedAnswerOptions[index].text = "15文字以内に設定して下さい";
+    //   setAnswerOptions(updatedAnswerOptions);
+    //   console.log(updatedAnswerOptions);
+    //   return;
+    // }
     updatedAnswerOptions[index].text = newText;
     setAnswerOptions(updatedAnswerOptions);
   };

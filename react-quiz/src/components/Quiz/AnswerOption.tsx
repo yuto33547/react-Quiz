@@ -11,11 +11,24 @@ interface AnswerOptionProps {
 function AnswerOption(props: AnswerOptionProps) {
   //分割代入
   let { index, text, handleAnswerClick, selectedFlg, color } = props;
+  const [fontSize, setFontSize] = useState("text-xl"); // デフォルトのフォントサイズ
 
   // selectedFlg の変更を検出 親のstateが変更されると自動的にレンダリングされるのでいらないけど明示的に
   useEffect(() => {
     // console.log("再レンダリングした時色は：" + index + color);
   }, [selectedFlg]);
+
+  useEffect(() => {
+    // textの文字数に応じてフォントサイズを調整
+    const textLength = text.length;
+    if (textLength < 15) {
+      setFontSize("text-xl");
+    } else if (textLength < 30) {
+      setFontSize("text-base");
+    } else {
+      setFontSize("text-sm"); // それ以外の場合、デフォルトのフォントサイズ
+    }
+  }, [text]);
 
   const chooseAnswer = () => {
     handleAnswerClick(index);
@@ -38,7 +51,9 @@ function AnswerOption(props: AnswerOptionProps) {
       }  ${color}`}
       onClick={chooseAnswer}
     >
-      <div className="text-center text-zinc-800 text-xl font-medium font-['DM Sans'] mb-4 mt-4">
+      <div
+        className={`text-center text-zinc-800 font-medium font-['DM Sans'] mb-4 mt-4 ${fontSize}`}
+      >
         {text}
       </div>
     </div>
