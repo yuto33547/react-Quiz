@@ -18,13 +18,10 @@ ReactQuizは、Reactを使用して開発されたクイズアプリケーショ
 
 ## 使用技術一覧
 
-![typescript-color](https://github.com/yuto33547/react-Quiz/assets/149577049/6072e0fe-852c-4bc5-b46c-1c7d8816ee52)
-![react-color](https://github.com/yuto
-![tailwindcss-color](https://github.com/yuto33547/react-Quiz/assets/149577049/635eb150-a0d1-4d6d-aef8-ac28b83ec3a1)
-335
-![firebase-color](https://github.com/yuto33547/react-Quiz/assets/149577049/279b887e-9e21-4960-9b10-1d202441991b)
-47/react-Quiz/assets/149577049/f5d40942-ff23-47df-b7b7-e3904ccaf524)
-
-- ReactBoostrap
+- React 18.2.0
+- TypeScript
+- FireBase(FireStore,Hosting)
+- Tailwindcss
+- React Boostrap
 - react-countdown-circle-timer
 - Sakura.js
