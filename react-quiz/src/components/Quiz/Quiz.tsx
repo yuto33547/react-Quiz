@@ -178,7 +178,7 @@ function Quiz() {
                     Question {index + 1}/{questions.length}
                   </div>
 
-                  <div className="text-center text-zinc-800 text-xl font-['DM Sans'] p-2 h-[auto]">
+                  <div className="text-center text-zinc-800 text-base p-2 h-[auto]">
                     {question.Q}
                   </div>
                 </div>
@@ -199,7 +199,7 @@ function Quiz() {
 
               <div className="Submit flex-1 flex justify-center items-center">
                 <button
-                  className={`Button px-2.5 py-2.5 bg-fuchsia-700 bg-opacity-50 rounded-xl w-[30%] h-[10%] mb-4 mt-4 text-center 
+                  className={`Button px-2.5 py-2.5 bg-fuchsia-700 bg-opacity-50 rounded-xl w-[40%] h-[15%] mb-4 mt-4 text-center 
                     chooseAnswer !== undefined ? "bg-gray-400" : ""
                   `}
                   type="button"
